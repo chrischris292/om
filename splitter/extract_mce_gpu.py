@@ -42,17 +42,19 @@ def filter_gpu(msg):
 	if "GPU" or "gpu" in temp:
 		return msg
 def spark_filter(input_files, master):
-	conf = (SparkConf().setMaster(master).setAppName("My app"))
+
+	conf = (SparkConf().setMaster(master).setAppName("MCE Extractor"))
 	sc = SparkContext(conf = conf)
 	for lfile in input_files:
+		print("\n\n\nProcessing %s" % (lfile))
 		logRDD = sc.textFile(lfile)
 		mceRDD = logRDD.filter(lambda line: filter_mce(line))
-		gpuRDD = logRDD.filter(lambda line: filter_gpu(line))
-		mlogRDD = logRDD.filter(lambda line: "MCE" in line)
+		#gpuRDD = logRDD.filter(lambda line: filter_gpu(line))
+		#mlogRDD = logRDD.filter(lambda line: "MCE" in line)
 		#coalesce(1)
 		mceRDD.saveAsTextFile(lfile+"_mce_code")
-		gpuRDD.saveAsTextFile(lfile+"_gpu")
-		mlogRDD.saveAsTextFile(lfile+"_mlog")
+		#gpuRDD.saveAsTextFile(lfile+"_gpu")
+		#mlogRDD.saveAsTextFile(lfile+"_mlog")
 		
 
 	
