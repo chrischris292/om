@@ -28,6 +28,7 @@ use bigint;
 #Keywhan
 my $input_file = $ARGV[0];
 my $output_dir = $ARGV[1];
+my $out_file = $output_dir."/".$input_file."_decoded";
 
 print "Decoding Machine Check data...hold on";
 
@@ -1434,13 +1435,13 @@ if ($numargs != 2){
 	exit 1;
 }
 
-if (-e "$output_dir/fully_decoded.txt") 
+if (-e "$out_file") 
 {
-  unlink "$output_dir/fully_decoded.txt";
+  unlink "$out_file";
 }
 
-open OUTFILE, ">>$output_dir/fully_decoded.txt"
-  or die "Error opening $output_dir/fully_decoded.txt : $!";
+open OUTFILE, ">>$out_file"
+  or die "Error opening $out_file : $!";
 
 
 #open(in_file, "I:/DEPEND/BW Error Analysis/Pearl_Scripts/20130215"); # Keywhan
