@@ -1428,7 +1428,7 @@ my $dir = "./";
 my $ind= 0, my $bank_no = 0, my $status_code = 0, my $count = 0;
 my $line1 = "", my $info = " ";
 my $node_id, my $date_time, my $comp_node, my $node_type, my $cpu, my $addr, my $misc = "N/A", my $processor, my $time, my $socket, my $apic;
-
+my $timestamp;
 my $numargs = $#ARGV + 1;
 if ($numargs != 2){
 	print("Usage: ./filename inputfile outputdir\n");
@@ -1465,11 +1465,13 @@ while($a = <in_file>)
 	  if($info =~ /Machine Check Exception/)
 	  {
 		  # my $len = scalar @values;
-		  $node_id = $values[0];
-		  $date_time = $values[3]." ".$values[4];
-		  $comp_node = $values[5];
-		  $node_type = $values[6];
+		  #$timestamp = $values[0];
+		  $node_id = $values[8];
+		  $date_time = $values[1];
+		  $comp_node = $values[2];
+		  $node_type = $values[3];
 		  
+		  		  
 		  $ind = index($info, "CPU");
 		  if($ind != -1)
 		  {
