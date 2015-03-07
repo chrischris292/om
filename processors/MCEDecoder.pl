@@ -173,7 +173,7 @@ sub decode_10
 
   if ($bank == 0){
 	  #DC
-	  $syndrome =	($status & 0xff << 47) >> 47 + (($status & 0xff << 24) >> 16);
+	  $syndrome =	($status & 0xff << 47) >> 47 | (($status & 0xff << 24) >> 16);
 	  $scrub =		($status & 1 << 40) ? 1 : 0;
   }elsif($bank == 2){
 	  #BU
@@ -182,7 +182,7 @@ sub decode_10
   }elsif($bank == 4){
 	  #NB
 	  $errCoreVal =			($status & 1 << 56) ? 1 : 0;
-	  $syndrome =			($status & 0xff << 47) >> 47 + (($status & 0xff << 24) >> 16);
+	  $syndrome =			($status & 0xff << 47) >> 47 | (($status & 0xff << 24) >> 16);
 	  $mcaStatSubCache =	($status & 0x3 << 42) >> 42;
 	  $sublink =			($status & 1 << 41) ? 1 : 0;
 	  $scrub =				($status & 1 << 40) ? 1 : 0;
@@ -772,7 +772,7 @@ sub decode_15
                               $addr_desc = "Physical";
                               $cache_way = ($bin_ll == LL_L1) ? $cache_way & 0x3 : (($bin_ll == LL_L2) ? $cache_way & 0xF : "N/A");
                               $core = "N/A";  
-                              $syndrome = $syndrome &  0xFF;                            
+                              $syndrome = $syndrome &  0x1FF;                            
                           }
                           if($ext_errorcode == 0b00100 &&   $code_type eq "mem" &&  $bin_pp == $bin_pp &&   $bin_t == $bin_t     &&         $bin_rrrr == RRRR_DRD && 
                                           $bin_tt == TT_D &&  $bin_ll > 0 &&     $uc == 0 &&     $addrv == 1 &&          $pcc == 0 && $cecc == 1 && $uecc == 0 && $def == 1 && $poison == 0) 
@@ -783,7 +783,7 @@ sub decode_15
                               $addr_desc = "Physical";
                               $cache_way = ($bin_ll == LL_L1) ? $cache_way & 0x3 : (($bin_ll == LL_L2) ? $cache_way & 0xF : "N/A");
                               $core = "N/A";  
-                              $syndrome = $syndrome &  0xFF;                            
+                              $syndrome = $syndrome &  0x1FF;                            
                           }
                           if($ext_errorcode == 0b00100 &&   $code_type eq "mem" &&  $bin_pp == $bin_pp &&   $bin_t == $bin_t     &&         $bin_rrrr == RRRR_DRD && 
                                           $bin_tt == TT_D &&  $bin_ll > 0 &&     $uc == 0 &&     $addrv == 1 &&          $pcc == 0 && $cecc == 1 && $uecc == 0 && $def == 0 && $poison == 0) 
@@ -794,7 +794,7 @@ sub decode_15
                               $addr_desc = "Physical";
                               $cache_way = ($bin_ll == LL_L1) ? $cache_way & 0x3 : (($bin_ll == LL_L2) ? $cache_way & 0xF : "N/A");
                               $core = "N/A";  
-                              $syndrome = $syndrome &  0xFF;                            
+                              $syndrome = $syndrome &  0x1FF;                            
                           }
                           if($ext_errorcode == 0b00101 &&   $code_type eq "mem" &&  $bin_pp == $bin_pp &&   $bin_t == $bin_t     &&         $bin_rrrr == RRRR_IRD && 
                                           $bin_tt == TT_I &&  $bin_ll == LL_LG &&     $uc == 0 &&     $addrv == 0 &&          $pcc == 0 && $cecc == 0 && $uecc == 0 && $def == 0 && $poison == 0) 
@@ -894,7 +894,7 @@ sub decode_15
                               $addr_desc = "Physical";
                               $cache_way = $cache_way & 0x3;
                               $core = "N/A";  
-                              $syndrome = $syndrome & 0xFF;                            
+                              $syndrome = $syndrome & 0x1FF;                            
                           }
                           if($ext_errorcode == 0b01010 &&   $code_type eq "mem" &&  $bin_pp == $bin_pp &&   $bin_t == $bin_t     &&         $bin_rrrr == RRRR_DWR && 
                                           $bin_tt == TT_D &&  $bin_ll == LL_L1 &&     $uc == 0 &&     $addrv == 1 &&          $pcc == 0 && $cecc == 1 && $uecc == 0 && $def == 1 && $poison == 0) 
@@ -904,7 +904,7 @@ sub decode_15
                               $addr_desc = "Physical";
                               $cache_way = $cache_way & 0x3;
                               $core = "N/A";  
-                              $syndrome = $syndrome & 0xFF;                            
+                              $syndrome = $syndrome & 0x1FF;                            
                           }
                           if($ext_errorcode == 0b01010 &&   $code_type eq "mem" &&  $bin_pp == $bin_pp &&   $bin_t == $bin_t     &&         $bin_rrrr == RRRR_DWR && 
                                           $bin_tt == TT_D &&  $bin_ll == LL_L1 &&     $uc == 0 &&     $addrv == 1 &&          $pcc == 0 && $cecc == 1 && $uecc == 0 && $def == 0 && $poison == 0) 
@@ -914,7 +914,7 @@ sub decode_15
                               $addr_desc = "Physical";
                               $cache_way = $cache_way & 0x3;
                               $core = "N/A";  
-                              $syndrome = $syndrome & 0xFF;                            
+                              $syndrome = $syndrome & 0x1FF;                            
                           }
                           if($ext_errorcode == 0b01011 &&   $code_type eq "mem" &&  $bin_pp == $bin_pp &&   $bin_t == $bin_t     &&         $bin_rrrr == RRRR_DWR && 
                                           $bin_tt == TT_D &&  $bin_ll == LL_LG &&     $uc == 0 &&     $addrv == 1 &&          $pcc == 0 && $cecc == 0 && $uecc == 0 && $def == 1 && $poison == 0) 
@@ -944,7 +944,7 @@ sub decode_15
                               $addr_desc = "Physical";
                               $cache_way = "N/A";
                               $core = "N/A";  
-                              $syndrome = $syndrome & 0xFF;                            
+                              $syndrome = $syndrome & 0x1FF;                            
                           }
                           if($ext_errorcode == 0b01100 &&   $code_type eq "mem" &&  $bin_pp == $bin_pp &&   $bin_t == $bin_t     &&         ($bin_rrrr == RRRR_PROBE || $bin_rrrr == RRRR_EVICT) && 
                                           $bin_tt == TT_D &&  $bin_ll == LL_L2 &&     $uc == 0 &&     $addrv == 0 &&          $pcc == 0 && $cecc == 1 && $uecc == 0 && $def == 1 && $poison == 0) 
@@ -954,7 +954,7 @@ sub decode_15
                               $addr_desc = "Physical";
                               $cache_way = "N/A";
                               $core = "N/A";  
-                              $syndrome = $syndrome & 0xFF;                            
+                              $syndrome = $syndrome & 0x1FF;                            
                           }
                           if($ext_errorcode == 0b01100 &&   $code_type eq "mem" &&  $bin_pp == $bin_pp &&   $bin_t == $bin_t     &&         ($bin_rrrr == RRRR_PROBE || $bin_rrrr == RRRR_EVICT) && 
                                           $bin_tt == TT_D &&  $bin_ll == LL_L2 &&     $uc == 0 &&     $addrv == 0 &&          $pcc == 0 && $cecc == 1 && $uecc == 0 && $def == 0 && $poison == 0) 
@@ -964,7 +964,7 @@ sub decode_15
                               $addr_desc = "Physical";
                               $cache_way = "N/A";
                               $core = "N/A";  
-                              $syndrome = $syndrome & 0xFF;                            
+                              $syndrome = $syndrome & 0x1FF;                            
                           }
                           if($ext_errorcode == 0b10000 &&   $code_type eq "mem" &&  $bin_pp == $bin_pp &&   $bin_t == $bin_t     &&         $bin_rrrr == RRRR_GEN && 
                                           $bin_tt == TT_G &&  $bin_ll == LL_L2 &&     $uc == 1 &&     $addrv == 1 &&          $pcc == 1 && $cecc == 0 && $uecc == 1 && $def == 0 && $poison == 0) 
@@ -1460,7 +1460,7 @@ while($a = <in_file>)
 	my $arraySize = scalar (@values);
 	$arraySize = $#values + 1;  
 	  
-	if($arraySize == 10)
+	if($arraySize < 15)
 	{
 	  if($info =~ /Machine Check Exception/)
 	  {

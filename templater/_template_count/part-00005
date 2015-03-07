@@ -1,0 +1,2 @@
+('sys sdb query update gpus set avail where node id', 16)
+('sys sdb query update gpus set avail where node id or node id or node id or node id', 3)
